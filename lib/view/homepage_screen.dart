@@ -1,5 +1,6 @@
 import 'package:expense_tracker/controller/statemanagement/balance_visibility_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class HomepageScreen extends StatelessWidget {
@@ -18,54 +19,76 @@ class HomepageScreen extends StatelessWidget {
               // Top gradient section
               Expanded(
                 flex: 1,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xff429690), Color(0xff2A7C76)],
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(40),
-                      bottomRight: Radius.circular(40),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        // gradient: LinearGradient(
+                        //   begin: Alignment.topCenter,
+                        //   end: Alignment.bottomCenter,
+                        //   colors: [Color(0xff429690), Color(0xff2A7C76)],
+                        // ),
+                        // borderRadius: BorderRadius.only(
+                        //   bottomLeft: Radius.circular(40),
+                        //   bottomRight: Radius.circular(40),
+                        // ),
+                        //add background image
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/background_semicircle.png'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text(
-                              "Good afternoon,",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                              ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Good afternoon,",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                                const Text(
+                                  "Enjelin Morgeana",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 28,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Inter',
+                                  ),
+                                ),
+                              ],
                             ),
-                            const Text(
-                              "Enjelin Morgeana",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Inter',
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.06),
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/images/icons/notifications.svg',
                               ),
                             ),
                           ],
                         ),
-                        const Icon(
-                          Icons.notifications,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: SvgPicture.asset(
+                        'assets/images/overlapping_cirlces.svg',
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -102,7 +125,6 @@ class HomepageScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-
                           ListTile(
                             leading: Image.asset(
                               'assets/images/upwork.png',
@@ -183,12 +205,12 @@ class HomepageScreen extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text('See all',
+                                Text(
+                                  'See all',
                                   style: TextStyle(
                                       color: Color(0xff666666),
                                       fontSize: 12,
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             ),
@@ -196,7 +218,7 @@ class HomepageScreen extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                                Image.asset('assets/images/transfer.png'),
+                              Image.asset('assets/images/transfer.png'),
                               Image.asset('assets/images/group12.png'),
                               Image.asset('assets/images/group13.png'),
                               Image.asset('assets/images/group14.png'),
@@ -230,139 +252,137 @@ class HomepageScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Consumer<BalanceVisibilityProvider>(
-                  builder: (context, visibilityProvider, child) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text(
-                                  'Total Balance',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontSize: 16,
-                                  ),
+                    builder: (context, visibilityProvider, child) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text(
+                                'Total Balance',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Inter',
+                                  fontSize: 16,
                                 ),
-                                IconButton(
-                                  icon: Icon(
-                                    visibilityProvider.isVisible
-                                        ? Icons.keyboard_arrow_up
-                                        : Icons.keyboard_arrow_down,
-                                    color: Colors.white,
-                                  ),
-                                  onPressed: () {
-                                    visibilityProvider.toggleVisibility();
-                                  },
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  visibilityProvider.isVisible
+                                      ? Icons.keyboard_arrow_up
+                                      : Icons.keyboard_arrow_down,
+                                  color: Colors.white,
                                 ),
-                              ],
-                            ),
-                            const Icon(
-                              Icons.more_horiz,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        if (visibilityProvider.isVisible)
-                          Text(
-                            "\$2,124.00",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                onPressed: () {
+                                  visibilityProvider.toggleVisibility();
+                                },
+                              ),
+                            ],
                           ),
-                        SizedBox(
-                          height: screenHeight * 0.03,
+                          const Icon(
+                            Icons.more_horiz,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                      if (visibilityProvider.isVisible)
+                        Text(
+                          "\$2,124.00",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor: Colors.white.withOpacity(0.15),
-                                  child: const Icon(Icons.arrow_downward,
-                                      color: Colors.white),
-                                ),
-                                const SizedBox(width: 5),
-                                const Text(
-                                  "Income",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                      SizedBox(
+                        height: screenHeight * 0.03,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor:
+                                        Colors.white.withOpacity(0.15),
+                                    child: const Icon(Icons.arrow_downward,
+                                        color: Colors.white),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              "\$1,840.00",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor: Colors.white.withOpacity(0.15),
-                                  child: const Icon(Icons.arrow_upward,
-                                      color: Colors.white),
-                                ),
-                                const SizedBox(width: 5),
-                                const Text(
-                                  "Expense",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                                  const SizedBox(width: 5),
+                                  const Text(
+                                    "Income",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Inter',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              "\$284.00",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
+                                ],
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  ],
-                );
-                  }
+                              const SizedBox(height: 10),
+                              const Text(
+                                "\$1,840.00",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 15,
+                                    backgroundColor:
+                                        Colors.white.withOpacity(0.15),
+                                    child: const Icon(Icons.arrow_upward,
+                                        color: Colors.white),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text(
+                                    "Expense",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Inter',
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              const Text(
+                                "\$284.00",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  );
+                }),
               ),
             ),
           ),
-          ),
         ],
       ),
-
     );
   }
 }
-
-

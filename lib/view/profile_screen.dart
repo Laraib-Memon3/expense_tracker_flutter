@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; 
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,8 +10,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-
-
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
@@ -23,46 +22,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Expanded(
                 flex: 1,
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Color(0xff429690), Color(0xff2A7C76)],
-                    ),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(80),
-                      bottomRight: Radius.circular(80),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(
-                          Icons.arrow_back_ios,
-                          size: 30,
-                          color: Colors.white,
+                child: Stack(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      // decoration: const BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     begin: Alignment.topCenter,
+                      //     end: Alignment.bottomCenter,
+                      //     colors: [Color(0xff429690), Color(0xff2A7C76)],
+                      //   ),
+                      //   borderRadius: BorderRadius.only(
+                      //     bottomLeft: Radius.circular(80),
+                      //     bottomRight: Radius.circular(80),
+                      //   ),
+                      // ),
+                      // image: DecorationImage(
+                      //     image:
+                      //         AssetImage('assets/images/background_semicircle.png'),
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage(
+                              'assets/images/background_semicircle.png'),
+                          fit: BoxFit.cover,
                         ),
-                        Text(
-                          'Add Expense',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontFamily: 'Inter',
-                            fontSize: 20,
-                            fontWeight: FontWeight.w900,
-                          ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: const [
+                            Icon(
+                              Icons.arrow_back_ios,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                            Text(
+                              'Profile',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Inter',
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            Icon(
+                              Icons.more_horiz,
+                              size: 30,
+                              color: Colors.white,
+                            ),
+                          ],
                         ),
-                        Icon(
-                          Icons.more_horiz,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: SvgPicture.asset(
+                        'assets/images/overlapping_cirlces.svg',
+                      ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -78,38 +100,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: screenHeight * 0.15,
                       ),
                       ListTile(
-                        title: Text('Invite Friends'),
-                        leading: CircleAvatar(
-                          radius: 22,
-                          backgroundColor: Colors.grey[200],
-                        
-                          child: Container(
-                            alignment: Alignment.center, 
-                            child:  Image.asset('assets/images/diamond.png')))
-                      ),
+                          title: Text('Invite Friends'),
+                          leading: CircleAvatar(
+                              radius: 22,
+                              backgroundColor: Colors.grey[200],
+                              child: Container(
+                                  alignment: Alignment.center,
+                                  child: Image.asset(
+                                      'assets/images/profile_icons/invite_friends.png')))),
                       Divider(),
                       ListTile(
                         title: Text('Account Info'),
-                        leading: const Icon(Icons.person),
+                        leading: SvgPicture.asset(
+                            'assets/images/profile_icons/account_info.svg'),
                       ),
                       ListTile(
                         title: Text('Personal Profile'),
-                        leading: const Icon(Icons.person_add),
+                        leading: SvgPicture.asset(
+                            'assets/images/profile_icons/personal_profile.svg'),
                       ),
                       ListTile(
                         title: Text('Message Center'),
-                        leading: const Icon(Icons.message),
+                        leading: SvgPicture.asset(
+                            'assets/images/profile_icons/message_center.svg'),
                       ),
                       ListTile(
                         title: Text('Login and Security'),
-                        leading: const Icon(Icons.security),
+                        leading: SvgPicture.asset(
+                            'assets/images/profile_icons/login_and_security.svg'),
                       ),
-
                       ListTile(
                         title: Text('Data and Privacy'),
-                        leading: const Icon(Icons.lock),
+                        leading: SvgPicture.asset(
+                            'assets/images/profile_icons/data_and_privacy.svg'),
                       ),
-
                     ],
                   ),
                 ),
@@ -124,7 +148,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             right: screenWidth * 0.05,
             child: Column(
               children: [
-        Image.asset('assets/images/profile.png'),
+                Image.asset('assets/images/profile.png'),
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),
@@ -134,8 +158,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontFamily: 'Inter',
                       fontSize: 20,
                       fontWeight: FontWeight.w900,
-                    )
-                ),
+                    )),
                 SizedBox(
                   height: screenHeight * 0.01,
                 ),
@@ -145,8 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       fontFamily: 'Inter',
                       fontSize: 14,
                       fontWeight: FontWeight.w900,
-                    )
-                ),
+                    )),
               ],
             ),
           ),

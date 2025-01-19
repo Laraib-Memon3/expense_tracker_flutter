@@ -1,6 +1,7 @@
 import 'package:expense_tracker/controller/preferences/usage_preferences.dart';
 import 'package:expense_tracker/controller/statemanagement/add_expense_provider.dart';
 import 'package:expense_tracker/controller/statemanagement/balance_visibility_provider.dart';
+import 'package:expense_tracker/controller/statemanagement/connect_wallet_provider.dart';
 import 'package:expense_tracker/controller/statemanagement/navigation_provider.dart';
 import 'package:expense_tracker/controller/statemanagement/statistics_provider.dart';
 import 'package:expense_tracker/controller/statemanagement/wallet_provider.dart';
@@ -26,6 +27,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => BalanceVisibilityProvider()),
         ChangeNotifierProvider(create: (_) => StatisticsProvider()),
         ChangeNotifierProvider(create: (_) => AddExpenseProvider()),
+        ChangeNotifierProvider(create: (_) => ConnectWalletProvider()),
       ],
       child: MyApp( notFirstTime: notFirstTime, onBoardingCompleted: onBoardingCompleted),
     )

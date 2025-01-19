@@ -1,7 +1,10 @@
 import 'package:expense_tracker/controller/statemanagement/wallet_provider.dart';
+import 'package:expense_tracker/view/bill_details_screen.dart';
+import 'package:expense_tracker/view/connect_wallet_screen.dart';
+import 'package:expense_tracker/view/transaction_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 
 class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
@@ -13,20 +16,31 @@ class WalletScreen extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => WalletProvider(),
       child: Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight,
-              colors: [Color(0xff429690), Color(0xff2A7C76)],
+        body: Stack(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [Color(0xff429690), Color(0xff2A7C76)],
+                ),
+              ),
+              child: Column(
+                children: [
+                  _buildHeader(context),
+                  _buildBody(context, screenWidth),
+                ],
+              ),
             ),
-          ),
-          child: Column(
-            children: [
-              _buildHeader(context),
-              _buildBody(context, screenWidth),
-            ],
-          ),
+            Positioned(
+              top: 0,
+              left: 0,
+              child: SvgPicture.asset(
+                'assets/images/overlapping_cirlces.svg',
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -59,12 +73,11 @@ class WalletScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: Color(0xff3F8782),
-                borderRadius: BorderRadius.circular(10),
+                color: Colors.white.withOpacity(0.06),
+                borderRadius: BorderRadius.circular(7),
               ),
-              child: const Icon(
-                Icons.notifications,
-                color: Colors.white,
+              child: SvgPicture.asset(
+                'assets/images/icons/notifications.svg',
               ),
             ),
           ],
@@ -109,11 +122,16 @@ class WalletScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildIconColumn(Icons.add, 'Add'),
+                  _buildIconColumn(Icons.add, 'Add', () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (contex) => ConnectWalletScreen()));
+                  }),
                   const SizedBox(width: 20),
-                  _buildIconColumn(Icons.share, 'Pay'),
+                  _buildIconColumn(Icons.share, 'Pay', () {}),
                   const SizedBox(width: 20),
-                  _buildIconColumn(Icons.send, 'Send'),
+                  _buildIconColumn(Icons.send, 'Send', () {}),
                 ],
               ),
               const SizedBox(height: 20),
@@ -189,39 +207,56 @@ class WalletScreen extends StatelessWidget {
 
     return Expanded(
       child: walletProvider.isTransactionSelected
-          ? _buildTransactionList()
-          : _buildUpcomingBillsList(),
+          ? _buildTransactionList(context)
+          : _buildUpcomingBillsList(context),
     );
   }
 
-  Column _buildIconColumn(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          height: 50,
-          width: 50,
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(
+  Widget _buildIconColumn(IconData icon, String label, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            height: 50,
+            width: 50,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(
+                color: const Color(0xff549994),
+              ),
+            ),
+            child: Icon(
+              icon,
               color: const Color(0xff549994),
             ),
           ),
-          child: Icon(
-            icon,
-            color: const Color(0xff549994),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(label),
-      ],
+          const SizedBox(height: 10),
+          Text(label),
+        ],
+      ),
     );
   }
 
-  Widget _buildTransactionList() {
+  Widget _buildTransactionList(BuildContext context) {
     return ListView(
-      children:  [
+      children: [
         ListTile(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TransactionDetailsScreen(
+                          isIncome: true,
+                          amount: 870,
+                          fee: 20,
+                          from: 'Upwork Escrow',
+                          date: 'Feb 30, 2022',
+                          time: '10:00 AM',
+                          image: 'assets/images/upwork.png',
+                        )));
+          },
           leading: Image.asset(
             'assets/images/upwork.png',
             height: 30,
@@ -239,6 +274,20 @@ class WalletScreen extends StatelessWidget {
           ),
         ),
         ListTile(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TransactionDetailsScreen(
+                          isIncome: false,
+                          amount: 85,
+                          fee: 0.99,
+                          from: 'Claire Jovalski',
+                          date: 'Feb 29, 2022',
+                          time: '04:30 PM',
+                          image: 'assets/images/transfer.png',
+                        )));
+          },
           leading: Image.asset(
             'assets/images/transfer.png',
             height: 30,
@@ -256,6 +305,18 @@ class WalletScreen extends StatelessWidget {
           ),
         ),
         ListTile(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TransactionDetailsScreen(
+                        isIncome: true,
+                        amount: 1406,
+                        fee: 0,
+                        from: 'PayPal',
+                        date: 'Jan 30, 2022',
+                        time: '12:00 PM',
+                        image: 'assets/images/paypal.png',
+                      ))),
           leading: Image.asset(
             'assets/images/paypal.png',
             height: 30,
@@ -273,6 +334,18 @@ class WalletScreen extends StatelessWidget {
           ),
         ),
         ListTile(
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => TransactionDetailsScreen(
+                        isIncome: false,
+                        amount: 11.99,
+                        fee: 0,
+                        from: 'YouTube',
+                        date: 'Jan 16, 2022',
+                        time: '08:00 PM',
+                        image: 'assets/images/youtube.png',
+                      ))),
           leading: Image.asset(
             'assets/images/youtube.png',
             height: 30,
@@ -293,86 +366,146 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUpcomingBillsList() {
+  Widget _buildUpcomingBillsList(BuildContext context) {
     return ListView(
-      children:  [
+      children: [
         ListTile(
-          leading: Image.asset('assets/images/youtube.png', height: 30, width: 30),
-          title: Text('YouTube'),
-          subtitle: Text('Feb 28, 2022'),
-          trailing: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: Color(0xffECF9F8),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text('Pay',
-              style: TextStyle(
-                color: Color(0xff438883),
-                fontSize: 16,
+            leading:
+                Image.asset('assets/images/youtube.png', height: 30, width: 30),
+            title: Text('YouTube'),
+            subtitle: Text('Feb 28, 2022'),
+            trailing: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BillDetailsScreen(
+                              title: 'YouTube Premium',
+                              date: 'Feb 28, 2022',
+                              price: 11.99,
+                              fee: 1.99,
+                              image: 'assets/images/youtube.png',
+                            )));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Color(0xffECF9F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Pay',
+                  style: TextStyle(
+                    color: Color(0xff438883),
+                    fontSize: 16,
+                  ),
+                ),
               ),
-            ),
-          )
-        ),
+            )),
         ListTile(
-          leading: Image.asset('assets/images/electricity.png', height: 30, width: 30),
-          title: Text('Electricity'),
-          subtitle: Text('Mar 1, 2022'),
-          trailing: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: Color(0xffECF9F8),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text('Pay',
-              style: TextStyle(
-                color: Color(0xff438883),
-                fontSize: 16,
+            leading: Image.asset('assets/images/electricity.png',
+                height: 30, width: 30),
+            title: Text('Electricity'),
+            subtitle: Text('Mar 1, 2022'),
+            trailing: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BillDetailsScreen(
+                              title: 'Electricity Bill',
+                              date: 'Mar 1, 2022',
+                              price: 50.00,
+                              fee: 0.00,
+                              image: 'assets/images/electricity.png',
+                            )));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Color(0xffECF9F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Pay',
+                  style: TextStyle(
+                    color: Color(0xff438883),
+                    fontSize: 16,
+                  ),
+                ),
               ),
-            ),
-          )
-        ),
+            )),
         ListTile(
-          leading: Image.asset('assets/images/house.png', height: 30, width: 30),
-          title: Text('House Rent'),
-          subtitle: Text('Mar 1, 2022'),
-          trailing: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(
-              color: Color(0xffECF9F8),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text('Pay',
-              style: TextStyle(
-                color: Color(0xff438883),
-                fontSize: 16,
+            leading:
+                Image.asset('assets/images/house.png', height: 30, width: 30),
+            title: Text('House Rent'),
+            subtitle: Text('Mar 1, 2022'),
+            trailing: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BillDetailsScreen(
+                              title: 'House Rent',
+                              date: 'Mar 1, 2022',
+                              price: 500.00,
+                              fee: 0.00,
+                              image: 'assets/images/house.png',
+                            )));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Color(0xffECF9F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Pay',
+                  style: TextStyle(
+                    color: Color(0xff438883),
+                    fontSize: 16,
+                  ),
+                ),
               ),
-            ),
-          )
-        ),
+            )),
         ListTile(
-          leading: Image.asset('assets/images/spotify.png', height: 30, width: 30),
-          title: Text('Spotify'),
-          subtitle: Text('Mar 1, 2022'),
-          trailing: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-              decoration: BoxDecoration(
-                color: Color(0xffECF9F8),
-                borderRadius: BorderRadius.circular(10),
+            leading:
+                Image.asset('assets/images/spotify.png', height: 30, width: 30),
+            title: Text('Spotify'),
+            subtitle: Text('Mar 1, 2022'),
+            trailing: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => BillDetailsScreen(
+                              title: 'Spotify Premium',
+                              date: 'Mar 1, 2022',
+                              price: 9.99,
+                              fee: 0.00,
+                              image: 'assets/images/spotify.png',
+                            )));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: Color(0xffECF9F8),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  'Pay',
+                  style: TextStyle(
+                    color: Color(0xff438883),
+                    fontSize: 16,
+                  ),
+                ),
               ),
-              child: Text('Pay',
-              style: TextStyle(
-                color: Color(0xff438883),
-                fontSize: 16,
-              ),
-              ),
-              )),
-
+            )),
       ],
     );
   }
 }
-
-
-
-
