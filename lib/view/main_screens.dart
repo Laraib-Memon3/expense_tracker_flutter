@@ -38,11 +38,11 @@ class MainScreen extends StatelessWidget {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(50)),
               ),
+              backgroundColor: Colors.teal,
               child: const Icon(
                 Icons.add,
                 color: Colors.white,
               ),
-              backgroundColor: Colors.teal,
             )
           : null,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

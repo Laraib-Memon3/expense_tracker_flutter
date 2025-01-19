@@ -26,22 +26,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      // decoration: const BoxDecoration(
-                      //   gradient: LinearGradient(
-                      //     begin: Alignment.topCenter,
-                      //     end: Alignment.bottomCenter,
-                      //     colors: [Color(0xff429690), Color(0xff2A7C76)],
-                      //   ),
-                      //   borderRadius: BorderRadius.only(
-                      //     bottomLeft: Radius.circular(80),
-                      //     bottomRight: Radius.circular(80),
-                      //   ),
-                      // ),
-                      // image: DecorationImage(
-                      //     image:
-                      //         AssetImage('assets/images/background_semicircle.png'),
-                      //     fit: BoxFit.cover,
-                      //   ),
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage(
@@ -87,8 +71,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-
-              // Bottom section for transactions
               Expanded(
                 flex: 2,
                 child: Container(
@@ -140,8 +122,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ],
           ),
-
-          // Floating card at the center, above both sections
           Positioned(
             top: screenHeight * 0.2,
             left: screenWidth * 0.05,

@@ -1,4 +1,5 @@
 import 'package:expense_tracker/view/bill_payment_receipt_screen.dart';
+import 'package:expense_tracker/view/widgets/reusable_circular_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -17,6 +18,8 @@ class BillPaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xFF429690),
       body: Column(
@@ -24,11 +27,20 @@ class BillPaymentScreen extends StatelessWidget {
           Stack(
             children: [
               Container(
-                height: 150,
-                padding: const EdgeInsets.only(top: 10),
                 decoration: const BoxDecoration(
                   color: Color(0xFF429690),
                 ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: SvgPicture.asset(
+                  'assets/images/overlapping_cirlces.svg',
+                ),
+              ),
+              Container(
+                height: 150,
+                padding: const EdgeInsets.only(top: 10),
                 child: SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -44,7 +56,7 @@ class BillPaymentScreen extends StatelessWidget {
                           },
                         ),
                         const Text(
-                          "Bill Payment", // Updated title
+                          "Bill Payment",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -52,152 +64,115 @@ class BillPaymentScreen extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          // Correct placement of the IconButton
                           icon:
                               const Icon(Icons.more_horiz, color: Colors.white),
-                          onPressed: () {
-                            // Handle three-dot menu press here
-                          },
+                          onPressed: () {},
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child: SvgPicture.asset(
-                  'assets/images/overlapping_cirlces.svg',
-                ),
-              ),
             ],
           ),
           Expanded(
             child: Container(
-              // Removed ClipRRect for rounded corners of the card
               decoration: const BoxDecoration(
-                // Added BoxDecoration for rounded corners
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24.0)),
               ),
               padding: const EdgeInsets.all(20.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Column(
-                        // Use a Column to center everything vertically
-                        mainAxisSize:
-                            MainAxisSize.min, // Important: Use min size
-                        children: [
-                          Image.asset(image,
-                              height: 60), // Increased size a bit
-                          const SizedBox(height: 16), // Added some space
-                          RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(
-                              text: 'You will pay  ',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: title,
-                                  style: const TextStyle(
-                                    color: Color(0xff438883),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                TextSpan(
-                                  text: ' for one month with BCA OneKlik',
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(image, height: 60),
+                        const SizedBox(height: 16),
+                        RichText(
+                          textAlign: TextAlign.center,
+                          text: TextSpan(
+                            text: 'You will pay  ',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Price'),
-                          Text(
-                              '\$${price.toStringAsFixed(2) // Fixed decimal places
-                              }'),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Fee'),
-                          Text(
-                              '\$${fee.toStringAsFixed(2) // Fixed decimal places
-                              }'),
-                        ],
-                      ),
-                    ),
-                    const Divider(thickness: 1),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Total',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                              '\$${(price + fee).toStringAsFixed(2) // Fixed decimal places
-                              }',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 240), // Increased spacing
-                    Center(
-                      child: SizedBox(
-                        width: 400.0,
-                        height: 60,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      BillPaymentReceiptScreen(
-                                        // Pass the title, price, and fee to the next screen
-                                        title: title,
-                                        price: price,
-                                        fee: fee,
-                                      )), // Navigate to BankLinkScreen
-                            );
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFF429690),
-                            elevation: 10.0, // Set the elevation here
-                            shadowColor: Colors.black,
+                            children: [
+                              TextSpan(
+                                text: title,
+                                style: const TextStyle(
+                                  color: Color(0xff438883),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' for one month with BCA OneKlik',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
                           ),
-                          child: const Text('Confirm and Pay',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20)),
-                        ),
-                      ),
+                        )
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Price'),
+                        Text('\$${price.toStringAsFixed(2)}'),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Fee'),
+                        Text('\$${fee.toStringAsFixed(2)}'),
+                      ],
+                    ),
+                  ),
+                  const Divider(thickness: 1),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Total',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('\$${(price + fee).toStringAsFixed(2)}',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  ReusableCircularButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BillPaymentReceiptScreen(
+                                    title: title,
+                                    price: price,
+                                    fee: fee,
+                                  )),
+                        );
+                      },
+                      title: 'Confirm and Pay'),
+                  SizedBox(
+                    height: screenHeight * 0.05,
+                  )
+                ],
               ),
             ),
           ),

@@ -1,5 +1,4 @@
 import 'package:expense_tracker/controller/preferences/usage_preferences.dart';
-import 'package:expense_tracker/view/homepage_screen.dart';
 import 'package:expense_tracker/view/main_screens.dart';
 import 'package:expense_tracker/view/widgets/reusable_circular_button.dart';
 import 'package:flutter/material.dart';
@@ -16,42 +15,43 @@ class OnboardingScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-      Container(
-        height: screenHeight * 0.7,
-        width: double.infinity,
-          child: Stack(
-            alignment: Alignment.center,
-        children: [
-          SvgPicture.asset('assets/images/onboarding_bg.svg'),
-          Positioned(
-            // child: SvgPicture.asset('assets/images/Man.svg'),
-            bottom: 0,
-            child: Image.asset('assets/images/onboarding_person.png'),
-          ),
-
-        ],
-      )
-      //   color: Colors.blue,
-      //   child: Image.asset('assets/images/onboarding_person.png'),
-      ),
+          Container(
+              height: screenHeight * 0.7,
+              width: double.infinity,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  SvgPicture.asset('assets/images/onboarding_bg.svg'),
+                  Positioned(
+                    bottom: 0,
+                    child: Image.asset('assets/images/onboarding_person.png'),
+                  ),
+                ],
+              )),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Column(
               children: [
-                Text('Spend Smarter \nSave More',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 30,
-                  color: Color(0xff438883),
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w900,
-                ),
+                Text(
+                  'Spend Smarter \nSave More',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 30,
+                    color: Color(0xff438883),
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 const SizedBox(height: 20),
-                ReusableCircularButton(onPressed: (){
-                  UsagePreferences().setOnBoardingCompleted(true);
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const MainScreen()));
-                }, title: 'Get Started'),
+                ReusableCircularButton(
+                    onPressed: () {
+                      UsagePreferences().setOnBoardingCompleted(true);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const MainScreen()));
+                    },
+                    title: 'Get Started'),
                 const SizedBox(height: 20),
                 RichText(
                   textAlign: TextAlign.center,

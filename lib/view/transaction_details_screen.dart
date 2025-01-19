@@ -30,11 +30,20 @@ class TransactionDetailsScreen extends StatelessWidget {
           Stack(
             children: [
               Container(
-                height: 150,
-                padding: const EdgeInsets.only(top: 10),
                 decoration: const BoxDecoration(
                   color: Color(0xFF429690),
                 ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: SvgPicture.asset(
+                  'assets/images/overlapping_cirlces.svg',
+                ),
+              ),
+              Container(
+                height: 150,
+                padding: const EdgeInsets.only(top: 10),
                 child: SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -67,13 +76,6 @@ class TransactionDetailsScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child: SvgPicture.asset(
-                  'assets/images/overlapping_cirlces.svg',
                 ),
               ),
             ],
@@ -137,7 +139,7 @@ class TransactionDetailsScreen extends StatelessWidget {
                           IconButton(
                             icon: const Icon(Icons.arrow_upward_rounded),
                             onPressed: () {
-                              // Handle share button press here
+
                             },
                           ),
                         ],
@@ -151,10 +153,7 @@ class TransactionDetailsScreen extends StatelessWidget {
                             const Text('Status'),
                             InkWell(
                               onTap: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(builder: (context) => TransactionDetailsScreenExpense()), // Navigate to BankLinkScreen
-                                // );// Handle text click here (e.g., navigate to a new screen)
+                                
                               },
                               child: Text(
                                 isIncome ? 'Income' : 'Expense',

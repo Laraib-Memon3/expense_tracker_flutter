@@ -16,23 +16,12 @@ class HomepageScreen extends StatelessWidget {
         children: [
           Column(
             children: [
-              // Top gradient section
               Expanded(
                 flex: 1,
                 child: Stack(
                   children: [
                     Container(
                       decoration: const BoxDecoration(
-                        // gradient: LinearGradient(
-                        //   begin: Alignment.topCenter,
-                        //   end: Alignment.bottomCenter,
-                        //   colors: [Color(0xff429690), Color(0xff2A7C76)],
-                        // ),
-                        // borderRadius: BorderRadius.only(
-                        //   bottomLeft: Radius.circular(40),
-                        //   bottomRight: Radius.circular(40),
-                        // ),
-                        //add background image
                         image: DecorationImage(
                           image: AssetImage(
                               'assets/images/background_semicircle.png'),
@@ -234,7 +223,6 @@ class HomepageScreen extends StatelessWidget {
             ],
           ),
 
-          // Floating card at the center, above both sections
           Positioned(
             top: screenHeight * 0.2,
             left: screenWidth * 0.05,

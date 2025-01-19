@@ -12,89 +12,82 @@ class ConnectWalletScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: const Color(0xFF429690),
-      body: Column(
+      body: Stack(
         children: [
           Container(
-            height: 150,
-            padding: const EdgeInsets.only(top: 10),
-            decoration: const BoxDecoration(
-              color: Color(0xFF429690),
-            ),
-            child: SafeArea(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      icon:
-                          const Icon(Icons.arrow_back_ios, color: Colors.white),
-                      onPressed: () {},
-                    ),
-                    const Text(
-                      "Connect Wallet",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.06),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: SvgPicture.asset(
-                        'assets/images/icons/notifications.svg',
-                      ),
-                    ),
-                    // Stack(
-                    //   children: [
-                    //     IconButton(
-                    //       icon: const Icon(Icons.notifications,
-                    //           color: Colors.white),
-                    //       onPressed: () {},
-                    //     ),
-                    //     Positioned(
-                    //       right: 8,
-                    //       top: 8,
-                    //       child: Container(
-                    //         width: 8,
-                    //         height: 8,
-                    //         decoration: const BoxDecoration(
-                    //           color: Colors.orange,
-                    //           shape: BoxShape.circle,
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                  ],
-                ),
-              ),
+            color: const Color(0xFF429690),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            child: SvgPicture.asset(
+              'assets/images/overlapping_cirlces.svg',
             ),
           ),
-          Expanded(
-            child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(24.0)),
-              child: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(20.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildTabBar(context, screenWidth),
-                      const SizedBox(height: 20),
-                      _buildBody(context),
-                    ],
+          Column(
+            children: [
+              Container(
+                height: 150,
+                padding: const EdgeInsets.only(top: 10),
+                decoration: const BoxDecoration(),
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios,
+                              color: Colors.white),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        const Text(
+                          "Connect Wallet",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.06),
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: SvgPicture.asset(
+                            'assets/images/icons/notifications.svg',
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius:
+                      const BorderRadius.vertical(top: Radius.circular(24.0)),
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.all(20.0),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildTabBar(context, screenWidth),
+                          const SizedBox(height: 20),
+                          _buildBody(context),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
@@ -171,7 +164,7 @@ class ConnectWalletScreen extends StatelessWidget {
       children: [
         Container(
             child: SvgPicture.asset(
-          'assets/images/Cards.svg',
+          'assets/images/Card.svg',
         )),
 
         const SizedBox(height: 20),
@@ -192,16 +185,15 @@ class ConnectWalletScreen extends StatelessWidget {
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8.0),
               borderSide:
-                  const BorderSide(color: Colors.teal), // Teal border color
+                  const BorderSide(color: Colors.teal), 
             ),
             focusedBorder: OutlineInputBorder(
-              // Style for focused state
               borderRadius: BorderRadius.circular(8.0),
               borderSide: const BorderSide(
-                  color: Colors.teal, width: 2.0), // Thicker border on focus
+                  color: Colors.teal, width: 2.0), 
             ),
             contentPadding: const EdgeInsets.symmetric(
-                vertical: 16.0, horizontal: 12.0), // Padding inside the field
+                vertical: 16.0, horizontal: 12.0), 
           ),
         ),
         const SizedBox(height: 16),
@@ -216,7 +208,7 @@ class ConnectWalletScreen extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8.0),
                     borderSide: const BorderSide(
-                        color: Colors.grey), // Light gray border
+                        color: Colors.grey), 
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                       vertical: 16.0, horizontal: 12.0),
@@ -278,143 +270,109 @@ class ConnectWalletScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        // ElevatedButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => const BankLinkScreen()),
-        //     );
-        //   },
-        //   child: const Text('Go to Bill Payment Receipt'),
-        // ),
       ],
     );
   }
 
   Widget _buildAccountsBody(BuildContext context) {
+    final connectWalletProvider = Provider.of<ConnectWalletProvider>(context);
+
+    final accounts = [
+      {
+        'icon': 'assets/images/icons/bank.png',
+        'title': 'Bank Link',
+        'subtitle': 'Connect your bank account',
+      },
+      {
+        'icon': 'assets/images/icons/microdeposits.png',
+        'title': 'Microdeposits',
+        'subtitle': 'Connect bank in 5-7 days',
+      },
+      {
+        'icon': 'assets/images/icons/paypal.png',
+        'title': 'Paypal',
+        'subtitle': 'Connect your PayPal account',
+      },
+    ];
+
     return Column(
       children: [
-        Container(
-          height: 100, // Added Container for background color
-          decoration: BoxDecoration(
-            color: Color(0xFF4388831A).withOpacity(0.1), // Background color
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              CircleAvatar(
-                  radius: 25,
-                  child: Icon(Icons.home, color: Color(0xFF429690)),
-                  backgroundColor: Colors.white),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Bank Link',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF429690), // Or any color you prefer
-                      ),
-                    ),
-                    Text(
-                      'Connect your bank',
-                      style: const TextStyle(
-                        color: Color(
-                            0xFF429690), // Example: slightly transparent black
-                      ),
-                    ),
-                    Text(
-                      'account to deposit & fund',
-                      style: const TextStyle(
-                        color: Color(
-                            0xFF429690), // Example: slightly transparent black
-                      ),
-                    ),
-                  ],
-                ),
+        ...accounts.map((account) {
+          final isSelected =
+              connectWalletProvider.selectedAccount == account['title'];
+
+          return GestureDetector(
+            onTap: () =>
+                connectWalletProvider.selectAccount(account['title'] as String),
+            child: Container(
+              height: 100,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color:
+                    isSelected ? const Color(0xFFE0F7FA) : Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(12),
               ),
-              CircleAvatar(
-                  radius: 15,
-                  child: Icon(Icons.check, color: Colors.white),
-                  backgroundColor: Color(0xFF429690)),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          height: 100, // Added Container for background color
-          decoration: BoxDecoration(
-            color: Colors.grey.shade50, // Background color
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 20,
-                child: Icon(Icons.attach_money, color: Colors.white),
-                backgroundColor: Colors.grey,
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Microdeposits',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundColor:
+                        isSelected ? Colors.white : Colors.transparent,
+                    child: Image.asset(account['icon'] as String),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          account['title'] as String,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: isSelected
+                                ? const Color(0xFF429690)
+                                : Colors.black,
+                          ),
+                        ),
+                        Text(
+                          account['subtitle'] as String,
+                          style: TextStyle(
+                            color: isSelected
+                                ? const Color(0xFF429690)
+                                : Colors.grey,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text('Connect bank in 5-7 days'),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(height: 16),
-        Container(
-          height: 100, // Added Container for background color
-          decoration: BoxDecoration(
-            color: Colors.grey.shade50, // Background color
-            borderRadius: BorderRadius.circular(12),
-          ),
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(Icons.payment, color: Colors.grey),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Paypal',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  if (isSelected)
+                    SvgPicture.asset(
+                      'assets/images/icons/confirmation_tick.svg',
+                      height: 24,
                     ),
-                    Text('Connect your paypal account'),
-                  ],
-                ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+          );
+        }),
         const SizedBox(height: 120),
         Center(
           child: SizedBox(
             width: 400.0,
             child: OutlinedButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text('Account connected successfully!')),
-                );
-                Navigator.pop(context);
-              },
+              onPressed: connectWalletProvider.selectedAccount != null
+                  ? () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                            content: Text(
+                                '${connectWalletProvider.selectedAccount} connected successfully!')),
+                      );
+                      Navigator.pop(context);
+                    }
+                  : null,
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: Color(0xFF429690)),
+                side: const BorderSide(color: Color(0xFF429690)),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
                 shape: RoundedRectangleBorder(

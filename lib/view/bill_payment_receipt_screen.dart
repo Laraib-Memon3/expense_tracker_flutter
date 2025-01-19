@@ -23,11 +23,20 @@ class BillPaymentReceiptScreen extends StatelessWidget {
           Stack(
             children: [
               Container(
-                height: 150,
-                padding: const EdgeInsets.only(top: 10),
                 decoration: const BoxDecoration(
                   color: Color(0xFF429690),
                 ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                child: SvgPicture.asset(
+                  'assets/images/overlapping_cirlces.svg',
+                ),
+              ),
+              Container(
+                height: 150,
+                padding: const EdgeInsets.only(top: 10),
                 child: SafeArea(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -54,19 +63,12 @@ class BillPaymentReceiptScreen extends StatelessWidget {
                           icon:
                               const Icon(Icons.more_horiz, color: Colors.white),
                           onPressed: () {
-                            // Handle three-dot menu press here
+
                           },
                         ),
                       ],
                     ),
                   ),
-                ),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child: SvgPicture.asset(
-                  'assets/images/overlapping_cirlces.svg',
                 ),
               ),
             ],
@@ -199,7 +201,7 @@ class BillPaymentReceiptScreen extends StatelessWidget {
                         children: [
                           Text('Price'),
                           Text(
-                              '\$${price.toStringAsFixed(2) // Fixed decimal places
+                              '\$${price.toStringAsFixed(2) 
                               }'),
                         ],
                       ),
@@ -211,7 +213,7 @@ class BillPaymentReceiptScreen extends StatelessWidget {
                         children: [
                           Text('Fee'),
                           Text(
-                              '-\$${fee.toStringAsFixed(2) // Fixed decimal places
+                              '-\$${fee.toStringAsFixed(2) 
                               }'),
                         ],
                       ),
@@ -225,7 +227,7 @@ class BillPaymentReceiptScreen extends StatelessWidget {
                           Text('Total',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                           Text(
-                              '\$${(price + fee).toStringAsFixed(2) // Fixed decimal places
+                              '\$${(price + fee).toStringAsFixed(2) 
                               }',
                               style: TextStyle(fontWeight: FontWeight.bold)),
                         ],
@@ -238,7 +240,7 @@ class BillPaymentReceiptScreen extends StatelessWidget {
                         height: 60,
                         child: OutlinedButton(
                           onPressed: () {
-                            // Handle share receipt action
+
                           },
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(color: Colors.teal[400]!),

@@ -34,23 +34,24 @@ class AddExpenseScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     Container(
-                      alignment: Alignment.center,
                       decoration: const BoxDecoration(
-                        // gradient: LinearGradient(
-                        //   begin: Alignment.topCenter,
-                        //   end: Alignment.bottomCenter,
-                        //   colors: [Color(0xff429690), Color(0xff2A7C76)],
-                        // ),
-                        // borderRadius: BorderRadius.only(
-                        //   bottomLeft: Radius.circular(40),
-                        //   bottomRight: Radius.circular(40),
-                        // ),
                         image: DecorationImage(
                           image: AssetImage(
                               'assets/images/background_semicircle.png'),
                           fit: BoxFit.cover,
                         ),
                       ),
+                    ),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: SvgPicture.asset(
+                        'assets/images/overlapping_cirlces.svg',
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.center,
+                      
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
@@ -78,13 +79,7 @@ class AddExpenseScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: SvgPicture.asset(
-                        'assets/images/overlapping_cirlces.svg',
-                      ),
-                    ),
+                    
                   ],
                 ),
               ),

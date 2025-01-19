@@ -26,18 +26,20 @@ class WalletScreen extends StatelessWidget {
                   colors: [Color(0xff429690), Color(0xff2A7C76)],
                 ),
               ),
-              child: Column(
-                children: [
-                  _buildHeader(context),
-                  _buildBody(context, screenWidth),
-                ],
-              ),
             ),
             Positioned(
               top: 0,
               left: 0,
               child: SvgPicture.asset(
                 'assets/images/overlapping_cirlces.svg',
+              ),
+            ),
+            Container(
+              child: Column(
+                children: [
+                  _buildHeader(context),
+                  _buildBody(context, screenWidth),
+                ],
               ),
             ),
           ],
@@ -56,9 +58,7 @@ class WalletScreen extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () {},
               color: Colors.white,
             ),
             const Text(
@@ -122,16 +122,17 @@ class WalletScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _buildIconColumn(Icons.add, 'Add', () {
+                  _buildIconColumn('assets/images/icons/add.svg', 'Add', () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (contex) => ConnectWalletScreen()));
                   }),
                   const SizedBox(width: 20),
-                  _buildIconColumn(Icons.share, 'Pay', () {}),
+                  _buildIconColumn('assets/images/icons/pay.svg', 'Pay', () {}),
                   const SizedBox(width: 20),
-                  _buildIconColumn(Icons.send, 'Send', () {}),
+                  _buildIconColumn(
+                      'assets/images/icons/send.svg', 'Send', () {}),
                 ],
               ),
               const SizedBox(height: 20),
@@ -212,7 +213,7 @@ class WalletScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIconColumn(IconData icon, String label, VoidCallback onTap) {
+  Widget _buildIconColumn(String icon, String label, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Column(
@@ -227,9 +228,8 @@ class WalletScreen extends StatelessWidget {
                 color: const Color(0xff549994),
               ),
             ),
-            child: Icon(
+            child: SvgPicture.asset(
               icon,
-              color: const Color(0xff549994),
             ),
           ),
           const SizedBox(height: 10),

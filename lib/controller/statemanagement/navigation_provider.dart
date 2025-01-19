@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-/// Navigation Provider
+
 class NavigationProvider with ChangeNotifier {
   int _currentIndex = 0;
 
