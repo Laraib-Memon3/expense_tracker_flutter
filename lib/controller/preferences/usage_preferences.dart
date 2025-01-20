@@ -1,10 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class UsagePreferences {
   bool _notFirstTime = false;
   bool _onBoardingCompleted = false;
-
- 
 
   Future<bool> get isFirstTime async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

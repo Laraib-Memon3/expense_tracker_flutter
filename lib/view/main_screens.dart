@@ -17,9 +17,9 @@ class MainScreen extends StatelessWidget {
     final navigationProvider = Provider.of<NavigationProvider>(context);
 
     final List<Widget> screens = [
-      const HomepageScreen(),
+      HomepageScreen(),
       StatisticsScreen(),
-      const WalletScreen(),
+      WalletScreen(),
       const ProfileScreen(),
     ];
 

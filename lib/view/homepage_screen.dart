@@ -1,10 +1,20 @@
+import 'package:expense_tracker/controller/preferences/usage_preferences.dart';
 import 'package:expense_tracker/controller/statemanagement/balance_visibility_provider.dart';
+import 'package:expense_tracker/model/userdata.dart';
+import 'package:expense_tracker/view/transaction_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class HomepageScreen extends StatelessWidget {
-  const HomepageScreen({super.key});
+  HomepageScreen({super.key});
+
+  final Userdata _prefs = Userdata();
+
+  Future<List<Map<String, dynamic>>> _fetchData() async {
+    await _prefs.ensureDataList();
+    return await _prefs.dataList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +90,6 @@ class HomepageScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
               Expanded(
                 flex: 2,
                 child: Container(
@@ -114,73 +123,73 @@ class HomepageScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          ListTile(
-                            leading: Image.asset(
-                              'assets/images/upwork.png',
-                              height: 30,
-                              width: 30,
-                            ),
-                            title: const Text("Upwork"),
-                            subtitle: const Text("Today"),
-                            trailing: const Text(
-                              "+\$850.00",
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Image.asset(
-                              'assets/images/transfer.png',
-                              height: 30,
-                              width: 30,
-                            ),
-                            title: const Text("Transfer"),
-                            subtitle: const Text("Yesterday"),
-                            trailing: const Text(
-                              "-\$85.00",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Image.asset(
-                              'assets/images/paypal.png',
-                              height: 30,
-                              width: 30,
-                            ),
-                            title: const Text("PayPal"),
-                            subtitle: const Text("Jan 30, 2022"),
-                            trailing: const Text(
-                              "+\$1406.00",
-                              style: TextStyle(
-                                color: Colors.green,
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
-                          ),
-                          ListTile(
-                            leading: Image.asset(
-                              'assets/images/youtube.png',
-                              height: 30,
-                              width: 30,
-                            ),
-                            title: const Text("YouTube"),
-                            subtitle: const Text("Jan 16, 2022"),
-                            trailing: const Text(
-                              "-\$11.99",
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontSize: 20,
-                                fontFamily: 'Inter',
-                              ),
-                            ),
+                          FutureBuilder(
+                            future: _fetchData(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (!snapshot.hasData ||
+                                  snapshot.data!.isEmpty) {
+                                return Center(
+                                    child: Text('No data available.'));
+                              } else {
+                                final data = snapshot.data!;
+                                return ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    final item = data[index];
+                                    return ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                TransactionDetailsScreen(
+                                                    isIncome:
+                                                        item['amount'] > 0,
+                                                    amount: item['amount'],
+                                                    fee: 20,
+                                                    from: item['title'],
+                                                    date: item['date'],
+                                                    time: '10 : 00AM',
+                                                    image: item['imageUrl']),
+                                          ),
+                                        );
+                                      },
+                                      leading: Image.asset(
+                                        item['imageUrl'],
+                                        height: 30,
+                                        width: 30,
+                                      ),
+                                      title: Text(item['title'],
+                                          style: const TextStyle(
+                                            fontSize: 16,
+                                            fontFamily: 'Inter',
+                                          )),
+                                      subtitle: Text('${item['date']}',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(0xff666666),
+                                              fontFamily: 'Inter')),
+                                      trailing: Text(
+                                        '\$${item['amount']}',
+                                        style: TextStyle(
+                                          color: item['amount'] >= 0
+                                              ? Colors.green
+                                              : Colors.red,
+                                          fontSize: 16,
+                                          fontFamily: 'Inter',
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }
+                            },
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -222,7 +231,6 @@ class HomepageScreen extends StatelessWidget {
               ),
             ],
           ),
-
           Positioned(
             top: screenHeight * 0.2,
             left: screenWidth * 0.05,
@@ -235,7 +243,7 @@ class HomepageScreen extends StatelessWidget {
               ),
               child: Container(
                 padding: const EdgeInsets.all(15),
-                height: screenHeight * 0.27,
+                height: screenHeight * 0.25,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                 ),

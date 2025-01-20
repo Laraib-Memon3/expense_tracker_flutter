@@ -1,4 +1,5 @@
 import 'package:expense_tracker/controller/statemanagement/wallet_provider.dart';
+import 'package:expense_tracker/model/userdata.dart';
 import 'package:expense_tracker/view/bill_details_screen.dart';
 import 'package:expense_tracker/view/connect_wallet_screen.dart';
 import 'package:expense_tracker/view/transaction_details_screen.dart';
@@ -7,7 +8,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class WalletScreen extends StatelessWidget {
-  const WalletScreen({super.key});
+  WalletScreen({super.key});
+
+  final Userdata _prefs = Userdata();
+
+  Future<List<Map<String, dynamic>>> _fetchData() async {
+    await _prefs.ensureDataList();
+    return await _prefs.dataList;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -240,272 +248,151 @@ class WalletScreen extends StatelessWidget {
   }
 
   Widget _buildTransactionList(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TransactionDetailsScreen(
-                          isIncome: true,
-                          amount: 870,
+    return FutureBuilder(
+      future: _fetchData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Center(child: Text('No data available.'));
+        } else {
+          final data = snapshot.data!;
+          return ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              final item = data[index];
+              return ListTile(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TransactionDetailsScreen(
+                          isIncome: item['amount'] > 0,
+                          amount: item['amount'],
                           fee: 20,
-                          from: 'Upwork Escrow',
-                          date: 'Feb 30, 2022',
-                          time: '10:00 AM',
-                          image: 'assets/images/upwork.png',
-                        )));
-          },
-          leading: Image.asset(
-            'assets/images/upwork.png',
-            height: 30,
-            width: 30,
-          ),
-          title: const Text("Upwork"),
-          subtitle: const Text("Today"),
-          trailing: const Text(
-            "+\$850.00",
-            style: TextStyle(
-              color: Colors.green,
-              fontSize: 20,
-              fontFamily: 'Inter',
-            ),
-          ),
-        ),
-        ListTile(
-          onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => TransactionDetailsScreen(
-                          isIncome: false,
-                          amount: 85,
-                          fee: 0.99,
-                          from: 'Claire Jovalski',
-                          date: 'Feb 29, 2022',
-                          time: '04:30 PM',
-                          image: 'assets/images/transfer.png',
-                        )));
-          },
-          leading: Image.asset(
-            'assets/images/transfer.png',
-            height: 30,
-            width: 30,
-          ),
-          title: const Text("Transfer"),
-          subtitle: const Text("Yesterday"),
-          trailing: const Text(
-            "-\$85.00",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 20,
-              fontFamily: 'Inter',
-            ),
-          ),
-        ),
-        ListTile(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TransactionDetailsScreen(
-                        isIncome: true,
-                        amount: 1406,
-                        fee: 0,
-                        from: 'PayPal',
-                        date: 'Jan 30, 2022',
-                        time: '12:00 PM',
-                        image: 'assets/images/paypal.png',
-                      ))),
-          leading: Image.asset(
-            'assets/images/paypal.png',
-            height: 30,
-            width: 30,
-          ),
-          title: const Text("PayPal"),
-          subtitle: const Text("Jan 30, 2022"),
-          trailing: const Text(
-            "+\$1406.00",
-            style: TextStyle(
-              color: Colors.green,
-              fontSize: 20,
-              fontFamily: 'Inter',
-            ),
-          ),
-        ),
-        ListTile(
-          onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TransactionDetailsScreen(
-                        isIncome: false,
-                        amount: 11.99,
-                        fee: 0,
-                        from: 'YouTube',
-                        date: 'Jan 16, 2022',
-                        time: '08:00 PM',
-                        image: 'assets/images/youtube.png',
-                      ))),
-          leading: Image.asset(
-            'assets/images/youtube.png',
-            height: 30,
-            width: 30,
-          ),
-          title: const Text("YouTube"),
-          subtitle: const Text("Jan 16, 2022"),
-          trailing: const Text(
-            "-\$11.99",
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 20,
-              fontFamily: 'Inter',
-            ),
-          ),
-        ),
-      ],
+                          from: item['title'],
+                          date: item['date'],
+                          time: '10 : 00AM',
+                          image: item['imageUrl']),
+                    ),
+                  );
+                },
+                leading: Image.asset(
+                  item['imageUrl'],
+                  height: 30,
+                  width: 30,
+                ),
+                title: Text(item['title'],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                    )),
+                subtitle: Text('${item['date']}',
+                    style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xff666666),
+                        fontFamily: 'Inter')),
+                trailing: Text(
+                  '\$${item['amount']}',
+                  style: TextStyle(
+                    color: item['amount'] >= 0 ? Colors.green : Colors.red,
+                    fontSize: 16,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      },
     );
   }
 
   Widget _buildUpcomingBillsList(BuildContext context) {
-    return ListView(
-      children: [
-        ListTile(
-            leading:
-                Image.asset('assets/images/youtube.png', height: 30, width: 30),
-            title: Text('YouTube'),
-            subtitle: Text('Feb 28, 2022'),
-            trailing: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BillDetailsScreen(
-                              title: 'YouTube Premium',
-                              date: 'Feb 28, 2022',
-                              price: 11.99,
-                              fee: 1.99,
-                              image: 'assets/images/youtube.png',
-                            )));
-              },
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Color(0xffECF9F8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  'Pay',
-                  style: TextStyle(
-                    color: Color(0xff438883),
-                    fontSize: 16,
+    final defaultData = [
+      {
+        'title': 'YouTube Premium',
+        'date': 'Feb 28, 2022',
+        'price': 11.99,
+        'fee': 1.99,
+        'image': 'assets/images/youtube.png'
+      },
+      {
+        'title': 'Electricity Bill',
+        'date': 'Mar 1, 2022',
+        'price': 50.00,
+        'fee': 0.00,
+        'image': 'assets/images/electricity.png'
+      },
+      {
+        'title': 'House Rent',
+        'date': 'Mar 1, 2022',
+        'price': 500.00,
+        'fee': 0.00,
+        'image': 'assets/images/house.png'
+      },
+      {
+        'title': 'Spotify Premium',
+        'date': 'Mar 1, 2022',
+        'price': 9.99,
+        'fee': 0.00,
+        'image': 'assets/images/spotify.png'
+      },
+    ];
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: defaultData.length,
+      itemBuilder: (context, index) {
+        final item = defaultData[index];
+        return ListTile(
+          leading: Image.asset(
+            item['image'] as String,
+            height: 30,
+            width: 30,
+          ),
+          title: Text(item['title'] as String,
+              style: const TextStyle(
+                fontSize: 16,
+                fontFamily: 'Inter',
+              )),
+          subtitle: Text('${item['date']}',
+              style: const TextStyle(
+                  fontSize: 12, color: Color(0xff666666), fontFamily: 'Inter')),
+          trailing: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BillDetailsScreen(
+                    title: item['title'] as String,
+                    date: item['date'] as String,
+                    price: item['price'] as double,
+                    fee: item['fee'] as double,
+                    image: item['image'] as String,
                   ),
                 ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+              decoration: BoxDecoration(
+                color: const Color(0xffECF9F8),
+                borderRadius: BorderRadius.circular(10),
               ),
-            )),
-        ListTile(
-            leading: Image.asset('assets/images/electricity.png',
-                height: 30, width: 30),
-            title: Text('Electricity'),
-            subtitle: Text('Mar 1, 2022'),
-            trailing: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BillDetailsScreen(
-                              title: 'Electricity Bill',
-                              date: 'Mar 1, 2022',
-                              price: 50.00,
-                              fee: 0.00,
-                              image: 'assets/images/electricity.png',
-                            )));
-              },
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Color(0xffECF9F8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  'Pay',
-                  style: TextStyle(
-                    color: Color(0xff438883),
-                    fontSize: 16,
-                  ),
+              child: const Text(
+                'Pay',
+                style: TextStyle(
+                  color: Color(0xff438883),
+                  fontSize: 16,
                 ),
               ),
-            )),
-        ListTile(
-            leading:
-                Image.asset('assets/images/house.png', height: 30, width: 30),
-            title: Text('House Rent'),
-            subtitle: Text('Mar 1, 2022'),
-            trailing: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BillDetailsScreen(
-                              title: 'House Rent',
-                              date: 'Mar 1, 2022',
-                              price: 500.00,
-                              fee: 0.00,
-                              image: 'assets/images/house.png',
-                            )));
-              },
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Color(0xffECF9F8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  'Pay',
-                  style: TextStyle(
-                    color: Color(0xff438883),
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            )),
-        ListTile(
-            leading:
-                Image.asset('assets/images/spotify.png', height: 30, width: 30),
-            title: Text('Spotify'),
-            subtitle: Text('Mar 1, 2022'),
-            trailing: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => BillDetailsScreen(
-                              title: 'Spotify Premium',
-                              date: 'Mar 1, 2022',
-                              price: 9.99,
-                              fee: 0.00,
-                              image: 'assets/images/spotify.png',
-                            )));
-              },
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Color(0xffECF9F8),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  'Pay',
-                  style: TextStyle(
-                    color: Color(0xff438883),
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            )),
-      ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
