@@ -1,16 +1,21 @@
-# expense_tracker
+This is a simple Expense Tracker app built using Flutter. The app provides a clean and intuitive user interface for managing personal expenses. Users can navigate through different screens to view, add, and categorize expenses. The app is designed with usability and aesthetics in mind and is compatible with both Android and iOS devices.
 
-A new Flutter project.
+Features Modern UI: Visually appealing and user-friendly interface.
 
-## Getting Started
+Expense Input Screen: Interface to add new expense entries with categories.
 
-This project is a starting point for a Flutter application.
+Expense List Screen: View a list of added expenses in a structured format.
 
-A few resources to get you started if this is your first Flutter project:
+Category Icons: Easily recognize expense types with icons.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Responsive Design: Optimized for both Android and iOS devices.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Technologies Used Flutter: Cross-platform framework for building native apps.
+
+Dart: Programming language used to develop Flutter apps.
+
+Setup and Installation Flutter Version Used: 3.22.3
+
+Steps to Run the App: git clone https://github.com/Laraib-Memon3/expense_tracker_flutter.git cd expense_tracker flutter pub get flutter run
+
+Demo Video Watch the demo video of the app here: https://github.com/user-attachments/assets/d303b091-1c80-4987-a0d8-44078dff754d
