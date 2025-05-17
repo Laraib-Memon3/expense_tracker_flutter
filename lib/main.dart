@@ -13,12 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  // main
   WidgetsFlutterBinding.ensureInitialized();
   final UsagePreferences prefs = UsagePreferences();
   final bool notFirstTime = await prefs.isFirstTime;
   final bool onBoardingCompleted = await prefs.onBoardingCompleted;
 
   runApp(MultiProvider(
+    //run app
     providers: [
       ChangeNotifierProvider(create: (_) => NavigationProvider()),
       ChangeNotifierProvider(create: (_) => WalletProvider()),
@@ -34,6 +36,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  // MyApp
   final bool notFirstTime;
   final bool onBoardingCompleted;
 
